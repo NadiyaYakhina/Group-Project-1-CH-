@@ -160,7 +160,7 @@ The strongest correlation (0.62) was found between Twitter and Lyrics, showing t
 ### One example
 We used the provided labMT 1.0 frequency data to generate our own custom analysis. By running our script, we produced the twitter_common_nyt_missing_top20.csv to help identify what words would ranked high and in general appear in the dataset of Twitter but are not in the NYT corpora.
 
-#### Extract from the table: Top 5 words frequent on Twitter but missing in NYT
+#### Extract from the table: Words on Twitter but missing in NYT
 
 | word | twitter_rank | happiness_average |
 | :--- | :--- | :--- |
