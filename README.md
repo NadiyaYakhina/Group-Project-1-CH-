@@ -79,7 +79,7 @@ Most postitive and most negative words do make sense, by "making sense" I mean t
 
 ### 2.1 Distribution of happiness scores
 
-To understand the emotional baseline of the dataset, descriptive statistics were calculated (Table 1) and visualised on a histogram (Figure 4) with the distribution of happiness scores across the 10,222 unique words.
+To understand the emotional rating of the dataset, descriptive statistics were calculated (Table 1) and visualised on a histogram (Figure 4) with the distribution of happiness scores across the 10,222 unique words.
 
 The summary of statistics:
 | Metric | Value |
@@ -97,9 +97,9 @@ Figure 4: Distribution of average happiness scores across the labMT 1.0 dataset.
 
 ### Analysis:
   
-Looking at the mean (5.38) and median (5.44), considering that the scale is 1 to 9 (with a neutral score of 5), the data has a skew to the right or, in other words, the findings show that people find language a little more positive.
+* Looking at the mean (5.38) and median (5.44), considering that the scale is 1 to 9, the data has a skew to the right or, in other words, the findings show that people find language a little more positive on average.
 
-The one pattern we did not expect was to see that takinf the closer look on the right side of the histogram, one can see a kind of negative "tail" in the dataset, showing that even if the whole dataset in quantity is skewed to be more positive, there are more diverse words to represent negativity.
+* The one pattern we did not expect was to see a kind of negative "tail" on the left side of the dataset, showing that even though the whole dataset in quantity is skewed to be more positive, there are more diverse words to represent negativity.
 
 ## 2.1 Disagreement: which words are “contested”?
 
@@ -119,9 +119,9 @@ Figure 2: Disagreement scatterplot
 | whiskey | 5.72 | 2.64 |
 
 
-
 #### Analysis of Findings
-Taking a closer look on the tabel above with top 5 most contested words, one can observe how all of them revolve around several sensitive categories. Applyign a more qualitative lens, words like "fucking," "fuckin," and "fucked" can be associated with profanity and taboo, therefore really vary in scores depending on the rater's sentitivity and initial associations. Moreover, words such as "pussy" may present a high disagreement due to the fact that it holds multiple and quite diverse meanings, from an animal to a offensive expletive. Lastly, it is also important to note that the score of words might differ according to personal background and cultural baggage, therefore, such words as "whiskey" can evoke different associations depending on the cultural or even personal/family history with alchohol.
+* Taking a closer look on the table above with top 5 most contested words, one can observe how all of them revolve around several sensitive categories. Applyign a more qualitative lens, words like "fucking," "fuckin," and "fucked" can be associated with profanity and taboo, therefore really vary in scores depending on the rater's sentitivity and initial associations. Moreover, words such as "pussy" may present a high disagreement due to the fact that it holds multiple and quite diverse meanings, from an animal to a offensive expletive. Lastly, the score of words might differ according to personal background and cultural baggage, therefore, such words as "whiskey" can evoke different associations depending on the cultural or even personal/family history with alchohol.
+* We have decided to choose these five words, because they have the highest standart deviation (representing the most contested words) from the word list. 
 
 ## 2.3 Corpus comparison: what counts as “common language” depends on where you look
 
@@ -131,9 +131,9 @@ To understand the scope of the provided to us dataset, we first analyzed how man
 Figure 3: How many words appear in each corpus rank?
 
 #### Interpretation of the chart
-The bar chart shows that each corpus contains exactly 5,000. This just proves the dataset construction methodology. The fact that all bars are equal confirms that no single corpus is over- or under-represented.
+* The bar chart shows that each corpus contains exactly 5,000. This just proves the dataset construction methodology. The fact that all bars are equal confirms that no single corpus is over- or under-represented.
 
-However, to understand how "common language" varies across the chosen social media channels presented in the dataset, we analyzed the overlap of the top 5,000 most frequent words from each group.
+* However, to understand how "common language" varies across the chosen social media channels presented in the dataset, we analyzed the overlap of the top 5,000 most frequent words from each group.
 
 #### Word Overlap Heatmap
 The heatmap below shows the raw number of shared words between each pair of channels. 
@@ -142,7 +142,8 @@ The heatmap below shows the raw number of shared words between each pair of chan
 Figure 4: The overlap heatmap
 
 ### Analysis:
-The diagonal of dark blue squares shows exactly 5,000 words for each, confirming that data was constructed using the top 5,000 words from each source. Highest overlap can be found in Twitter and Music Lyrics as they share the most vocabulary 3,127 words. In contrast, the lowest overlap can be found between Music Lyrics and the New York Times (2,241 words), showcasing a significant difference between professional news medium and songwriting.
+* The diagonal of dark blue squares shows exactly 5,000 words for each, confirming that data was constructed using the top 5,000 words from each source. Highest overlap can be found in Twitter and Music Lyrics as they share the most vocabulary 3,127 words. 
+* In contrast, the lowest overlap can be found between Music Lyrics and the New York Times (2,241 words), showcasing a significant difference between professional news medium and songwriting.
 
 #### Spearman Rank Correlation
 To take it a step further we calculated the Spearman correlation coefficient to determine if words that are popular in one corpus tend to be popular in others as well.
@@ -155,7 +156,8 @@ To take it a step further we calculated the Spearman correlation coefficient to 
 | NYT + Lyrics | 0.38 |
 
 ### Analysis:
-The strongest correlation (0.62) was found between Twitter and Lyrics, showing that social media speech patterns are closer to the vocabulary used in modern music than to other media channels. In contrast, as already highlighted in the heatmap the NYT and Lyrics have the weakest correlation (0.38), shoeing how  the "common" vocabulary of news and artistic lyrics are most distinct in this dataset compared to the other media channels.
+* The strongest correlation (0.62) was found between Twitter and Lyrics, showing that social media speech patterns are closer to the vocabulary used in modern music than to other media channels. 
+* In contrast, as already highlighted in the heatmap the NYT and Lyrics have the weakest correlation (0.38), shoeing how  the "common" vocabulary of news and artistic lyrics are most distinct in this dataset compared to the other media channels.
 
 ### One example
 We used the provided labMT 1.0 frequency data to generate our own custom analysis. By running our script, we produced the twitter_common_nyt_missing_top20.csv to help identify what words would ranked high and in general appear in the dataset of Twitter but are not in the NYT corpora.
@@ -176,4 +178,4 @@ We used the provided labMT 1.0 frequency data to generate our own custom analysi
 | **ya** | 195.0 | 5.22 |
 
 ### Analysis
-A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
+* A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
