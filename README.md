@@ -162,13 +162,18 @@ We used the provided labMT 1.0 frequency data to generate our own custom analysi
 
 #### Extract from the table: Top 5 words frequent on Twitter but missing in NYT
 
-| Word | Twitter Rank | NYT Rank |
+| word | twitter_rank | happiness_average |
 | :--- | :--- | :--- |
-| **rt** | 10 | Missing |
-| **lol** | 25 | Missing |
-| **fucking** | 48 | Missing |
-| **u** | 62 | Missing |
-| **cant** | 85 | Missing |
+| **rt** | 15.0 | 4.88 |
+| **lol** | 42.0 | 6.84 |
+| **im** | 80.0 | 5.02 |
+| **twitter** | 107.0 | 5.46 |
+| **haha** | 135.0 | 7.64 |
+| **ur** | 159.0 | 4.96 |
+| **gonna** | 166.0 | 4.86 |
+| **yeah** | 192.0 | 5.90 |
+| **que** | 194.0 | 4.64 |
+| **ya** | 195.0 | 5.22 |
 
 ### Analysis
 A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
