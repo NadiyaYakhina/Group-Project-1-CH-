@@ -67,11 +67,10 @@ Data dictionary:
 | --- | --- | --- | --- | 
 
 Sanity checks: 
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |  
 | word | happiness_rank | happiness_average | happiness_standard_deviation | twitter_rank | google_rank | nyt_rank | lyrics_rank |
+:--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 33 | friendship | 34 | 7.96 | 1.1241 | 4273.0 | 3098.0 | 3669.0 | 3980.0 |
 |1543 | designers | 1544 | 6.38 | 1.4831 | NaN | NaN | 3890.0 | NaN |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |  
 
 The two rows above show a clear distinguishment between the ranks of them by happiness, and hence, their position on the list. Friendship is drawn "34" for average happiness, while "designers" remains 1544. Considering freinship to have more positive stigma attached to it, "it makes sense" why it is higher than designers. Standard deviation also shows that friendship is positionned higher on the "happiness" deviation than designers. 
 Most postitive and most negative words do make sense, by "making sense" I mean that the positive words are ones, that a human would consider positive, and most negative ones are those, that a human would consider most negative. Hence, the model "makes sense" to a human becuase it seems to understand what a human want it to do, aligning with the humans expectations. 
