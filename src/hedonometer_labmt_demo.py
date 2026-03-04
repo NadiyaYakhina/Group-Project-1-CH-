@@ -309,7 +309,39 @@ for i in range(len(labels)):
         pairs.append({"pair": f"{a}+{b}", "n_words_in_both": int((flags[a] & flags[b]).sum())})
 
 pairwise_overlap = pd.DataFrame(pairs).sort_values("pair")
+# Using the 'labels' and 'flags' already defined in the current Section 2.3 
+overlap_matrix = np.zeros((4, 4))
+
+for i, label1 in enumerate(labels):
+    for j, label2 in enumerate(labels):
+        # Count how many words are True (not NaN) for both corpora
+        overlap_matrix[i, j] = (flags[label1] & flags[label2]).sum()
+
+plt.figure(figsize=(8, 6))
+plt.imshow(overlap_matrix, cmap='Blues', aspect='auto')
+
+# Add the number counts inside the squares for clarity
+for i in range(4):
+    for j in range(4):
+        plt.text(j, i, int(overlap_matrix[i, j]),
+                 ha="center", va="center", 
+                 color="black" if overlap_matrix[i, j] < 2500 else "white")
+
+plt.xticks(range(4), labels)
+plt.yticks(range(4), labels)
+plt.title("Word Overlap Heatmap Between Corpora")
+plt.tight_layout()
+
+# Save it
+save_figure("corpus_overlap_heatmap.png")
+plt.close()
 save_csv(pairwise_overlap, "pairwise_overlap_counts.csv", index=False)
+
+# Rank Correlation Matrix
+correlation_matrix = df[['twitter_rank', 'google_rank', 'nyt_rank', 'lyrics_rank']].corr(method='spearman')
+print("\nSpearman Correlation between corpus rankings:")
+print(correlation_matrix)
+save_csv(correlation_matrix.reset_index(), "rank_correlation_matrix.csv", index=False)
 
 # (C) One concrete example: frequent in one corpus, missing in another.
 # Here we look for words that are relatively frequent on Twitter but do NOT appear in NYT's top-5000.

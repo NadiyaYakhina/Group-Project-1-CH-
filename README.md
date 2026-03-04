@@ -101,3 +101,74 @@ Looking at the mean (5.38) and median (5.44), considering that the scale is 1 to
 
 The one pattern we did not expect was to see that takinf the closer look on the right side of the histogram, one can see a kind of negative "tail" in the dataset, showing that even if the whole dataset in quantity is skewed to be more positive, there are more diverse words to represent negativity.
 
+## 2.1 Disagreement: which words are “contested”?
+
+Since the dataset also presents standart deviation for each word, one might take a look into what were the words people disagreed most about, so where the scores differed more. The scatter plot (Figure 2) maps out this comparison by taking average happiness score against the standard deviation. Therefore, points higher on the y-axis represent words with more disagreement.
+
+![Disagreement Scatterplot](figures/happiness_vs_std_scatter.png)
+Figure 2: Disagreement scatterplot
+
+### Top 5 most contested words
+
+| Word | Happiness Average | Standard Deviation |
+| :--- | :--- | :--- |
+| fucking | 4.64 | 2.93 |
+| fuckin | 3.86 | 2.74 |
+| fucked | 3.56 | 2.71 |
+| pussy | 4.80 | 2.67 |
+| whiskey | 5.72 | 2.64 |
+
+
+
+#### Analysis of Findings
+Taking a closer look on the tabel above with top 5 most contested words, one can observe how all of them revolve around several sensitive categories. Applyign a more qualitative lens, words like "fucking," "fuckin," and "fucked" can be associated with profanity and taboo, therefore really vary in scores depending on the rater's sentitivity and initial associations. Moreover, words such as "pussy" may present a high disagreement due to the fact that it holds multiple and quite diverse meanings, from an animal to a offensive expletive. Lastly, it is also important to note that the score of words might differ according to personal background and cultural baggage, therefore, such words as "whiskey" can evoke different associations depending on the cultural or even personal/family history with alchohol.
+
+## 2.3 Corpus comparison: what counts as “common language” depends on where you look
+
+To understand the scope of the provided to us dataset, we first analyzed how many words from the 10,222-word lexicon are considered "common" (within the top 5,000 most frequent) in each individual media group.
+
+![Corpus Coverage Bar Chart](figures/corpus_rank_coverage_bar.png)
+Figure 3: How many words appear in each corpus rank?
+
+#### Interpretation of the chart
+The bar chart shows that each corpus contains exactly 5,000. This just proves the dataset construction methodology. The fact that all bars are equal confirms that no single corpus is over- or under-represented.
+
+However, to understand how "common language" varies across the chosen social media channels presented in the dataset, we analyzed the overlap of the top 5,000 most frequent words from each group.
+
+#### Word Overlap Heatmap
+The heatmap below shows the raw number of shared words between each pair of channels. 
+
+![Corpus Overlap Heatmap](figures/corpus_overlap_heatmap.png)
+Figure 4: The overlap heatmap
+
+### Analysis:
+The diagonal of dark blue squares shows exactly 5,000 words for each, confirming that data was constructed using the top 5,000 words from each source. Highest overlap can be found in Twitter and Music Lyrics as they share the most vocabulary 3,127 words. In contrast, the lowest overlap can be found between Music Lyrics and the New York Times (2,241 words), showcasing a significant difference between professional news medium and songwriting.
+
+#### Spearman Rank Correlation
+To take it a step further we calculated the Spearman correlation coefficient to determine if words that are popular in one corpus tend to be popular in others as well.
+
+| Channel Pair | Spearman Correlation |
+| :--- | :--- |
+| Twitter + Lyrics | 0.62 |
+| Google Books + NYT | 0.60 |
+| Twitter + NYT | 0.47 |
+| NYT + Lyrics | 0.38 |
+
+### Analysis:
+The strongest correlation (0.62) was found between Twitter and Lyrics, showing that social media speech patterns are closer to the vocabulary used in modern music than to other media channels. In contrast, as already highlighted in the heatmap the NYT and Lyrics have the weakest correlation (0.38), shoeing how  the "common" vocabulary of news and artistic lyrics are most distinct in this dataset compared to the other media channels.
+
+### One example
+We used the provided labMT 1.0 frequency data to generate our own custom analysis. By running our script, we produced the twitter_common_nyt_missing_top20.csv to help identify what words would ranked high and in general appear in the dataset of Twitter but are not in the NYT corpora.
+
+#### Extract from the table: Top 5 words frequent on Twitter but missing in NYT
+
+| Word | Twitter Rank | NYT Rank |
+| :--- | :--- | :--- |
+| **rt** | 10 | Missing |
+| **lol** | 25 | Missing |
+| **fucking** | 48 | Missing |
+| **u** | 62 | Missing |
+| **cant** | 85 | Missing |
+
+### Analysis
+A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
