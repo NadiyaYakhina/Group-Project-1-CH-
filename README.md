@@ -185,3 +185,40 @@ We used the provided labMT 1.0 frequency data to generate our own custom analysi
 
 ### Analysis
 * A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
+
+## 3 Qualitative exploration: close reading the lexicon as a cultural artifact
+
+### 3.1 Word Exhibit
+
+| category | word | happiness_average | happiness_standard_deviation | twitter_rank | google_rank | nyt_rank | lyrics_rank |
+|---|---|---|---|---|---|---|---|
+| very positive | laughter | 8.5 | 0.9313 | 3600.0 |  |  | 1728.0 |
+| very positive | happiness | 8.44 | 0.9723 | 1853.0 | 2458.0 |  | 1230.0 |
+| very positive | love | 8.42 | 1.1082 | 25.0 | 317.0 | 328.0 | 23.0 |
+| very positive | happy | 8.3 | 0.9949 | 65.0 | 1372.0 | 1313.0 | 375.0 |
+| very positive | laughed | 8.26 | 1.1572 | 3334.0 | 3542.0 |  | 2332.0 |
+| very negative | terrorist | 1.3 | 0.9091 | 3576.0 |  | 3026.0 |  |
+| very negative | suicide | 1.3 | 0.8391 | 2124.0 | 4707.0 | 3319.0 | 2107.0 |
+| very negative | rape | 1.44 | 0.7866 | 3133.0 |  | 4115.0 | 2977.0 |
+| very negative | terrorism | 1.48 | 0.9089 |  |  | 3192.0 |  |
+| very negative | murder | 1.48 | 1.015 | 2762.0 | 3110.0 | 1541.0 | 1059.0 |
+| highly contested | fucking | 4.64 | 2.926 | 448.0 |  |  | 620.0 |
+| highly contested | fuckin | 3.86 | 2.7405 | 1077.0 |  |  | 688.0 |
+| highly contested | fucked | 3.56 | 2.7117 | 1840.0 |  |  | 904.0 |
+| highly contested | pussy | 4.8 | 2.665 | 2019.0 |  |  | 949.0 |
+| highly contested | whiskey | 5.72 | 2.6422 |  |  |  | 2208.0 |
+| Twitter-common, NYT-missing | rt | 4.88 | 1.0622 | 15.0 |  |  |  |
+| Twitter-common, NYT-missing | lol | 6.84 | 1.7884 | 42.0 |  |  |  |
+| Twitter-common, NYT-missing | im | 5.02 | 1.1156 | 80.0 | 4093.0 |  | 315.0 |
+| Twitter-common, NYT-missing | twitter | 5.46 | 1.9082 | 107.0 |  |  |  |
+| Twitter-common, NYT-missing | haha | 7.64 | 1.3815 | 135.0 |  |  | 3211.0 |
+
+The qualitiative analysis is informed by a close reading of our data where we studied 50 most positive and negative words and furthermore 50 highly contested words. 
+
+A close reading of the words that have the highest and lowest happiness average make clear certain patterns. These patterns can help in explaining the decision-making that informed the ranking of the words. 
+
+Firstly, the extreme ends of the happiness average table where we see the most positive and most negative words, include words that likely contain meanings that are largely consistent across contexts. For the most positive words, these included words used to express joyous emotions (e.g. happy, joy, etc.) occasions and events that are associated with positive experiences (e.g. christmas, beach, holidays), and objects symbolic of idealized happiness (e.g. butterflies, rainbows, etc.). On the other end, words with the least happiness average score carry a common theme of “fear” (e.g. death, murder, bomb, violence, etc.).
+
+Moreover, words with the hisghest standard deviation highlight words containing multiple meaning, highly contested topics and the overall most importantly it brings forth the significance of context within a language. This is evident through the profanity that come up (e.g. fuck, slut, pussy). Moreover, this included topics that are poitcially charged (e.g. capitalism, socialism), and culturally loaded (e.g. church, marriage, god). Interestingly, another pattern that emerges here include famous institutions (e.g. mcdonalds & walmart) that maybe signifier of larger debates online. 
+
+Lastly, we briefly looked at words that are frequent in the twitter ranking but do not appear in the NYT ranks corpus which, again, points to the contextual use of language that differs from time and place. Here, this is the difference in language use by a general public on social media vs edited, professional writing from a media company which is why informal/coloquial/slang words are not ranked by NYT. 
