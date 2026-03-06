@@ -221,4 +221,42 @@ The qualitiative analysis is informed by a close reading of our data where we st
 
 * Moreover, words with the hisghest standard deviation highlight words containing multiple meaning, highly contested topics and the overall most importantly it brings forth the significance of context within a language. This is evident through the profanity that come up (e.g. fuck, slut, pussy). Moreover, this included topics that are poitcially charged (e.g. capitalism, socialism), and culturally loaded (e.g. church, marriage, god). Interestingly, another pattern that emerges here include famous institutions (e.g. mcdonalds & walmart) that maybe signifier of larger debates online. 
 
-* Lastly, we briefly looked at words that are frequent in the twitter ranking but do not appear in the NYT ranks corpus which, again, points to the contextual use of language that differs from time and place. Here, this is the difference in language use by a general public on social media vs edited, professional writing from a media company which is why informal/coloquial/slang words are not ranked by NYT. 
+* Lastly, we briefly looked at words that are frequent in the twitter ranking but do not appear in the NYT ranks corpus which, again, points to the contextual use of language that differs from time and place. Here, this is the difference in language use by a general public on social media vs edited, professional writing from a media company which is why informal/coloquial/slang words are not ranked by NYT.
+
+* 4.1
+
+Data Collection:
+1. Collection of 4.6 billion tweets posted by over 63 million users in 33 months
+2. 5000 most frequent words from four distinct sources. Totalling up to 10,222 unique words
+3. Amazon’s Mechanical Turk was used to obtain the human happiness rating. Independent users rated each word on a scale from 1 to 9
+4. A “naive” algorithm calculated the weighted average of the happiness scores 
+5. A tunable “stop word” filter was implemented to exclude neutral words (e.g. obtained a score near 5) to refine the instrument's focus on more emotional language 
+6. The updated instrument was applied back to the dataset to identify patterns across hours, days, years, and, lastly, ambient happiness scores.
+
+4.2
+1. Frequency-based word selection
+- Choice: The researchers selected words based on how often they appear across the four sources 
+- Consequence: This makes it easier to cover high volumes of text; however, it can make it harder to capture the emotional impact of words that have a lower frequency but are highly potent. 
+- Example: Inclusion of words like ‘the’ (4.94), and ‘of’ (4.94). These words required a separate filtering process to remove these words so they dont distort the sentiment measurement 
+2. The "Bag-of-Words" Naive Algorithm
+- Choice: The method calculates the average of word scores, ignoring sentence structure, grammar, and context
+- Consequence: The computational process is efficient, but it’s harder to detect sarcasm, negation, or multiple meanings.
+- Example: Analyzing Tiger Woods, words like “car” and “sex” were scored as positive in isolation, although in context of that specific scandal were negative
+3. Crowdsourcing via Mechanical Turk.
+- Choice: usage of anonymous online workers to provide the foundational happiness scores.
+- Consequence: easier to scale the dataset tenfold, but it’s challenging to take into account cultural or demographic biases, as the rating reflects a “generic reader” rather than representing the global population 
+- Example: In the paper, the researchers highlight how the Turk rating correlates with the student-based ANEW study, while Twitter users remain a non-representative subpopulation.
+4. Implementing a center-band filter ($\Delta h_{avg} = 1$
+- Choice: Researchers excluded all words with a happiness rating of between 4 and 6. 
+- Consequence: This improves the instrument's sensitivity to emotional shifts. However, it makes it more brittle because it discards about 64% of the words, substantially reducing the total coverage. 
+- Example: The removal of words like ‘truck’ and ‘sleep’, which scored near 5, makes identifying emotional shifts during major events such as holidays or disasters. 
+5. Equality weighting of all users
+- Choice: news organisation tweets have the same weight as individual users
+- Consequence: “societal-scale” level of happiness is easier to measure as a form of “crowd-sourced media”. Although this makes it harder to differentiate genuine personal emotion from the sheer volume of news reporting
+- Example: Osama Bin Laden’s death was recorded as the least happy day in the time frame as a result of the rise in negative news-related words, like “dead”, “death”, and “killed”, even if many users felt positive about the event.
+
+4.3
+We would trust the hedonometer to reliably measure large-scale population happiness levels over time. The hedomenter is exceptionally skilled at identifying system-wide social synchrony, e.g. recourrring happiness peaks on holidays or substantial reductions as a consequence of major social traumas, like natural disasters, or celebrity deaths. The hedonometer operates as a sensing tool for capturing the overall mood of the digital public all around. 
+The hedonometer should not be used to interpret psychological happiness parameters or societal well-being, as the model overlooks context; it’s not recommended to be used for short, isolated text, where sarcasm or negation would be overlooked. Furthermore, these limitations show how this is not representative of a truly universal human sentiment, as Twitter users are non- representative of the subpopulation and the word list is biased toward English.
+To improve the instrument, a few elements can be updated. First, the incorporation of N-grams to help contextualize meanings such as “child abuse” or “not bad”, which can not be detected by a single-word approach. Second, a stronger language detection would allow non-English tweets to be ensured with appropriate sentiment scores. Third, implementing geographic and demographic metadata allows sentiment to be analyzed across different regions or groups rather than as a “generic reader”. The instrument could also be implemented with more diverse annotator pools, multi-dimensional emotional categories, and regular updates to maintain a contemporary language. Instead of measuring happiness as a quantity, the updated version should frame happiness as measuring public emotional expression within a specific cultural and technological context. 
+
