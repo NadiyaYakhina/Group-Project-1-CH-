@@ -262,10 +262,15 @@ To improve the instrument, a few elements can be updated. First, the incorporati
 
 ## Credits: 
 Repo & workflow lead: Sara
+
 Data wrangler: Valerija
+
 Quantitative analyst: Nadiya
+
 Qualitative/close reading lead: Sadia 
+
 Provenance and Critique lead: Merey
+
 Editor and Figure curator: Nadiya
 
 ## References: 
