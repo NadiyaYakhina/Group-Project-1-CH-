@@ -68,7 +68,6 @@ Data dictionary:
 | google_rank | Rank of frequency of word on platform | float64 | 5222 |
 | nyt_rank | Rank of frequency of word on platform | float64 | 5222 |
 | lyrics_rank | Rank of frequency of word on platform | float64 | 5222 |
-| --- | --- | --- | --- | 
 
 ### Step 1.3 - Sanity checks: 
 | word | happiness_rank | happiness_average | happiness_standard_deviation | twitter_rank | google_rank | nyt_rank | lyrics_rank |
@@ -186,7 +185,7 @@ We used the provided labMT 1.0 frequency data to generate our own custom analysi
 ### Analysis
 * A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
 
-## 3 Qualitative exploration: close reading the lexicon as a cultural artifact
+## Step 3: Qualitative exploration: close reading the lexicon as a cultural artifact
 
 ### 3.1 Word Exhibit
 
@@ -223,8 +222,9 @@ The qualitiative analysis is informed by a close reading of our data where we st
 
 * Lastly, we briefly looked at words that are frequent in the twitter ranking but do not appear in the NYT ranks corpus which, again, points to the contextual use of language that differs from time and place. Here, this is the difference in language use by a general public on social media vs edited, professional writing from a media company which is why informal/coloquial/slang words are not ranked by NYT.
 
-* 4.1
+## Step 4: Critical Reflection
 
+4.1
 Data Collection:
 1. Collection of 4.6 billion tweets posted by over 63 million users in 33 months
 2. 5000 most frequent words from four distinct sources. Totalling up to 10,222 unique words
@@ -246,7 +246,7 @@ Data Collection:
 - Choice: usage of anonymous online workers to provide the foundational happiness scores.
 - Consequence: easier to scale the dataset tenfold, but it’s challenging to take into account cultural or demographic biases, as the rating reflects a “generic reader” rather than representing the global population 
 - Example: In the paper, the researchers highlight how the Turk rating correlates with the student-based ANEW study, while Twitter users remain a non-representative subpopulation.
-4. Implementing a center-band filter ($\Delta h_{avg} = 1$
+4. Implementing a center-band filter ($\Delta h_{avg} = 1$)
 - Choice: Researchers excluded all words with a happiness rating of between 4 and 6. 
 - Consequence: This improves the instrument's sensitivity to emotional shifts. However, it makes it more brittle because it discards about 64% of the words, substantially reducing the total coverage. 
 - Example: The removal of words like ‘truck’ and ‘sleep’, which scored near 5, makes identifying emotional shifts during major events such as holidays or disasters. 
