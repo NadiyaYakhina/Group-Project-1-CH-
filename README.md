@@ -260,3 +260,14 @@ We would trust the hedonometer to reliably measure large-scale population happin
 The hedonometer should not be used to interpret psychological happiness parameters or societal well-being, as the model overlooks context; it’s not recommended to be used for short, isolated text, where sarcasm or negation would be overlooked. Furthermore, these limitations show how this is not representative of a truly universal human sentiment, as Twitter users are non- representative of the subpopulation and the word list is biased toward English.
 To improve the instrument, a few elements can be updated. First, the incorporation of N-grams to help contextualize meanings such as “child abuse” or “not bad”, which can not be detected by a single-word approach. Second, a stronger language detection would allow non-English tweets to be ensured with appropriate sentiment scores. Third, implementing geographic and demographic metadata allows sentiment to be analyzed across different regions or groups rather than as a “generic reader”. The instrument could also be implemented with more diverse annotator pools, multi-dimensional emotional categories, and regular updates to maintain a contemporary language. Instead of measuring happiness as a quantity, the updated version should frame happiness as measuring public emotional expression within a specific cultural and technological context. 
 
+## Credits: 
+Repo & workflow lead: Sara
+Data wrangler: Valerija
+Quantitative analyst: Nadiya
+Qualitative/close reading lead: Sadia 
+Provenance and Critique lead: Merey
+Editor and Figure curator: Nadiya
+
+## Refereences: 
+Dodds PS, Harris KD, Kloumann IM, Bliss CA, Danforth CM (2011) Temporal Patterns of Happiness and Information in a Global Social Network:
+Hedonometrics and Twitter. PLoS ONE 6(12): e26752. doi:10.1371/journal.pone.0026752 
