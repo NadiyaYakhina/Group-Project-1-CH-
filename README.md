@@ -268,6 +268,6 @@ Qualitative/close reading lead: Sadia
 Provenance and Critique lead: Merey
 Editor and Figure curator: Nadiya
 
-## Refereences: 
+## References: 
 Dodds PS, Harris KD, Kloumann IM, Bliss CA, Danforth CM (2011) Temporal Patterns of Happiness and Information in a Global Social Network:
 Hedonometrics and Twitter. PLoS ONE 6(12): e26752. doi:10.1371/journal.pone.0026752 
