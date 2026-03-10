@@ -224,7 +224,7 @@ The qualitiative analysis is informed by a close reading of our data where we st
 
 ## Step 4: Critical Reflection
 
-4.1
+### 4.1
 Data Collection:
 1. Collection of 4.6 billion tweets posted by over 63 million users in 33 months
 2. 5000 most frequent words from four distinct sources. Totalling up to 10,222 unique words
@@ -233,7 +233,7 @@ Data Collection:
 5. A tunable “stop word” filter was implemented to exclude neutral words (e.g. obtained a score near 5) to refine the instrument's focus on more emotional language 
 6. The updated instrument was applied back to the dataset to identify patterns across hours, days, years, and, lastly, ambient happiness scores.
 
-4.2
+### 4.2
 1. Frequency-based word selection
 - Choice: The researchers selected words based on how often they appear across the four sources 
 - Consequence: This makes it easier to cover high volumes of text; however, it can make it harder to capture the emotional impact of words that have a lower frequency but are highly potent. 
@@ -255,7 +255,7 @@ Data Collection:
 - Consequence: “societal-scale” level of happiness is easier to measure as a form of “crowd-sourced media”. Although this makes it harder to differentiate genuine personal emotion from the sheer volume of news reporting
 - Example: Osama Bin Laden’s death was recorded as the least happy day in the time frame as a result of the rise in negative news-related words, like “dead”, “death”, and “killed”, even if many users felt positive about the event.
 
-4.3
+### 4.3
 We would trust the hedonometer to reliably measure large-scale population happiness levels over time. The hedomenter is exceptionally skilled at identifying system-wide social synchrony, e.g. recourrring happiness peaks on holidays or substantial reductions as a consequence of major social traumas, like natural disasters, or celebrity deaths. The hedonometer operates as a sensing tool for capturing the overall mood of the digital public all around. 
 The hedonometer should not be used to interpret psychological happiness parameters or societal well-being, as the model overlooks context; it’s not recommended to be used for short, isolated text, where sarcasm or negation would be overlooked. Furthermore, these limitations show how this is not representative of a truly universal human sentiment, as Twitter users are non- representative of the subpopulation and the word list is biased toward English.
 To improve the instrument, a few elements can be updated. First, the incorporation of N-grams to help contextualize meanings such as “child abuse” or “not bad”, which can not be detected by a single-word approach. Second, a stronger language detection would allow non-English tweets to be ensured with appropriate sentiment scores. Third, implementing geographic and demographic metadata allows sentiment to be analyzed across different regions or groups rather than as a “generic reader”. The instrument could also be implemented with more diverse annotator pools, multi-dimensional emotional categories, and regular updates to maintain a contemporary language. Instead of measuring happiness as a quantity, the updated version should frame happiness as measuring public emotional expression within a specific cultural and technological context. 
@@ -274,5 +274,5 @@ Provenance and Critique lead: Merey
 Editor and Figure curator: Nadiya
 
 ## References: 
-Dodds PS, Harris KD, Kloumann IM, Bliss CA, Danforth CM (2011) Temporal Patterns of Happiness and Information in a Global Social Network:
+  Dodds PS, Harris KD, Kloumann IM, Bliss CA, Danforth CM (2011) Temporal Patterns of Happiness and Information in a Global Social Network:
 Hedonometrics and Twitter. PLoS ONE 6(12): e26752. doi:10.1371/journal.pone.0026752 
