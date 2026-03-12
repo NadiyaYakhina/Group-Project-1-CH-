@@ -4,8 +4,7 @@ import time
 import os
 
 # --- 1. Setup ---
-# Use the 'Key' from your screenshot, NOT the 'Secret'
-API_KEY = '7bSR2Vj1Dtzd1lBxjANFtRfGou7cmA38WP0eaFaV6Gil6kyR' # replace with your actual API key from the NYT Developer Portal
+API_KEY = '' # replace with your actual API key from the NYT Developer Portal
 ARCHIVE_URL = "https://api.nytimes.com/svc/archive/v1"
 OUTPUT_FILE = "data/raw/Data_Set_Inference.csv"
 
@@ -65,3 +64,95 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# --- 2. Tokenization and Cleaning --- //We reccomend to run this separetly from above
+'''
+// For data cleaning and tokenization, we followed the methodology outlined in the original paper by Dodds:
+1. Data Extraction: Parsed Year, Month, Day to analyze happiness trends across 
+   different timescales (e.g., yearly or monthly cycles).
+2. Punctuation: Stripped all symbols (including smart quotes) to normalize 
+   possessives (e.g., "sheinbaum's" -> "sheinbaums").
+3. Case: Lowercased all words to match the case-insensitive labMT word list[cite: 1631].
+4. Numbers: Removed digits to focus on semantic words with emotional weight.
+5. No stemming: Kept full word forms (like 'heres' vs 'here') because different 
+   inflections have different happiness scores.
+6. Stop words: Filtered neutral words to increase the sensitivity of the 
+   hedonometric instrument.
+
+// Why we didnt just use 'tokenize' function?
+We avoided standard library tokenizers (like NLTK's word_tokenize) because they 
+are 'too smart' for this study's needs. They often split 
+contractions (don't -> do + n't) or keep punctuation as separate tokens, which 
+would make it harder to match words directly to the labMT 1.0 dataset.'''
+
+
+import pandas as pd
+import re
+import string
+import nltk
+from nltk.corpus import stopwords
+import os
+
+
+# Ensure stop words are ready
+nltk.download('stopwords', quiet=True)
+
+def replicate_tokenization():
+
+    '''Finding the paths were a bit tricky, so we added this to 
+    make sure it works regardless of where the script is run from'''
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    input_path = os.path.join(base_dir, '..', 'data', 'raw', 'Data_Set_Inference.csv')
+    output_path = os.path.join(base_dir, '..', 'data', 'raw', 'tokenized_data_set.csv')
+
+    if not os.path.exists(input_path):
+        print(f"ERROR: File not found at: {input_path}")
+        return
+
+
+    df = pd.read_csv(input_path)
+    
+    # Handle date extraction (hours, days, months), 'errors=coerce' prevents the script from crashing if a date is messy
+    df['pub_date'] = pd.to_datetime(df['pub_date'], errors='coerce', utc=True)
+    df = df.dropna(subset=['pub_date']) # Remove rows with broken dates
+    
+    df['year'] = df['pub_date'].dt.year
+    df['month'] = df['pub_date'].dt.month
+    df['day'] = df['pub_date'].dt.day
+    
+    #We decided to define cleaning logic (we here kind of try to replicate labMT 1.0 Methodology)
+    stop_words = set(stopwords.words('english'))
+
+    def clean_hedonometric_text(text):
+        if not isinstance(text, str):
+            return ""
+        
+        #Remove numbers to avoid noise
+        text = re.sub(r'\d+', '', text)
+        
+        # Remove ALL punctuation/symbols (also with smart quotes and possessives) // we struggled that one for a long time...
+        text = re.sub(r"[^\w\s]", "", text)
+        
+        # Lowercase and split (Paper by Dodds et al. used case-insensitive pattern matching) 
+        words = text.lower().split()
+        
+        #Filter stop words
+        tokens = [w for w in words if w not in stop_words]
+        
+        return " ".join(tokens)
+
+    #Column check //do not mind this, just catching potential naming issues
+    target_col = 'headline' if 'headline' in df.columns else 'heading'
+    
+    #Process and save finally!!
+    df['tokenized_words'] = df[target_col].apply(clean_hedonometric_text)
+    
+    final_df = df[['year', 'month', 'day', 'tokenized_words']]
+    final_df.to_csv(output_path, index=False)
+    
+    print(f"SUCCESS! Created: {output_path}")
+    print(final_df.head())
+
+if __name__ == "__main__":
+    replicate_tokenization()
