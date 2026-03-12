@@ -1,0 +1,10 @@
+# Ignore individual python files
+hello.py
+hi.py
+
+# Ignore entire folders
+lecture-2/
+lecture-3/
+
+# macOS system files
+.DS_Store
