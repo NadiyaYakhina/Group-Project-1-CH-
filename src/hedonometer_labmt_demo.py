@@ -172,16 +172,16 @@ save_csv(sample_15, "random_sample_15_rows.csv", index=False)
 # (C) Top positive / negative words by happiness_average
 show_cols = ["word", "happiness_average", "happiness_standard_deviation"]
 
-top_50_positive = df.sort_values("happiness_average", ascending=False).head(50)[show_cols]
-top_50_negative = df.sort_values("happiness_average", ascending=True).head(50)[show_cols]
+top_10_positive = df.sort_values("happiness_average", ascending=False).head(10)[show_cols]
+top_10_negative = df.sort_values("happiness_average", ascending=True).head(10)[show_cols]
 
-print("\nTop 50 positive words (by happiness_average):")
-print(top_50_positive.to_string(index=False))
-print("\nTop 50 negative words (by happiness_average):")
-print(top_50_negative.to_string(index=False))
+print("\nTop 10 positive words (by happiness_average):")
+print(top_10_positive.to_string(index=False))
+print("\nTop 10 negative words (by happiness_average):")
+print(top_10_negative.to_string(index=False))
 
-save_csv(top_50_positive, "top_50_positive_words.csv", index=False)
-save_csv(top_50_negative, "top_50_negative_words.csv", index=False)
+save_csv(top_10_positive, "top_10_positive_words.csv", index=False)
+save_csv(top_10_negative, "top_10_negative_words.csv", index=False)
 
 
 # -----------------------------------------------------------------------------
@@ -244,10 +244,10 @@ save_figure("happiness_vs_std_scatter.png")
 plt.close()
 
 # Which words do people disagree about most?
-most_contested_50 = df.sort_values("happiness_standard_deviation", ascending=False).head(50)[show_cols]
-print("Top 50 most 'contested' words (highest standard deviation):")
-print(most_contested_50.to_string(index=False))
-save_csv(most_contested_50, "top_50_contested_words.csv", index=False)
+most_contested_15 = df.sort_values("happiness_standard_deviation", ascending=False).head(15)[show_cols]
+print("Top 15 most 'contested' words (highest standard deviation):")
+print(most_contested_15.to_string(index=False))
+save_csv(most_contested_15, "top_15_contested_words.csv", index=False)
 
 
 print_section("2.3 Corpus comparison: rank coverage + overlaps")
