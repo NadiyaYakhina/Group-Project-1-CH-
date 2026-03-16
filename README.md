@@ -1,4 +1,4 @@
-# Seminars 3 & 4 — Hedonometer (Project Folder)
+# Temporal Patterns of Happiness in the New York Times Headlines
 
 This folder provides an **example project structure** (and an instructor/demo script) for using the **labMT 1.0** dataset together with the NYT headlines visualizations. (Data Set S1 from the Hedonometer paper).
 
