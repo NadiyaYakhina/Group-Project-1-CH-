@@ -1,18 +1,18 @@
 # Seminars 3 & 4 — Hedonometer (Project Folder)
 
-This folder provides an **example project structure** (and an instructor/demo script) for the Seminars 3 & 4 group project using the **labMT 1.0** dataset (Data Set S1 from the Hedonometer paper).
+This folder provides an **example project structure** (and an instructor/demo script) for using the **labMT 1.0** dataset together with the NYT headlines visualizations. (Data Set S1 from the Hedonometer paper).
 
 It includes:
-- the labMT 1.0 dataset file (`data/raw/Data_Set_S1.txt`)
-- a runnable demo analysis script (`src/hedonometer_labmt_demo.py`) that produces a *typical* set of outputs aligned to the assignment
-- course documents in `docs/` (original paper + paper companion + assignment + project quickstart), provided as **.pdf**
+- the labMT 1.0 dataset file (`data/raw/Data_Set_S1.txt`) as well as the tokenized version of headlines (data/raw/Data_Set_Inference.csv)
+- a runnable demo analysis script src/inference.py, src/scoring_logic.py, scr/sanity_check.py and src/nyt_visualisations.py 
+- findings provided as pngs under figures
 
 ## Folder layout (course convention)
 
 - `src/` — Python scripts you run
-- `data/raw/` — input data (treat as read-only)
-- `figures/` — PNG plots (embed these in your GitHub README)
-- `tables/` — CSV tables/summaries (optional to embed, but useful for analysis)
+- `data/raw/` or 'data/processed/' — input data 
+- `figures/` — PNG plots 
+- `tables/` — CSV tables/summaries 
 - `docs/` — assignment + paper companion + quickstart handout
 
 ## Setup + run (from the project root)
@@ -40,7 +40,7 @@ python3 -m pip install -r requirements.txt
 
 ### 3) Run the demo analysis
 ```bash
-python3 src/run_analysis.py
+src/nyt_visualisations.py 
 ```
 
 ### What gets generated?
@@ -48,230 +48,213 @@ After running, look in:
 - `figures/` — PNG plots
 - `tables/` — CSV summary tables
 
-## Step 1: 
-### Step 1.1 
-- The file was loaded through downloading the assignment folder and opening the project on VScode. 
-- All group members connected to the project via github. Each group member accomplished commits after completing a fraction of the assignment. This task required a pull and a push after its successful completion. 
-- Lines 99-104 of code read the csv and ignored the first 3 rows of the data, indicated that data is separated by tabs (sep =\t"). 
-- hape of dataset =  (rows, columns): (10222, 8)
-- A missing rank (--) in this dataset means that the information for this category is not available, and is replaced in the code by NaN. Broadly speaking, this means that the word was not present for the top 5000 words on the platform.
+# Research Topic: Temporal Patterns of Happiness in the New York Times
+Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. Our project aims to answer the question: How does the happiness level of The New York Times titles vary over time from 2015 to 2025?
 
-### Step 1.2
-Data dictionary: 
-| Name | Data represented  | dtype | Misses |
-| --- | --- | --- | --- |
-| word | data analysed | text (string) | 0 |
-| happiness_rank| list of words based on highest to lowest happiness average| float64 | 0 |
-| happiness_average | happiness attached to word (based on 50 itereations) | float64 | 0 |
-| happiness_standard_deviation | Extent of controversy when assigning happiness rank  | float64 | 0 |
-| twitter_rank | Rank of frequency of word on platform | float64 | 5222 |
-| google_rank | Rank of frequency of word on platform | float64 | 5222 |
-| nyt_rank | Rank of frequency of word on platform | float64 | 5222 |
-| lyrics_rank | Rank of frequency of word on platform | float64 | 5222 |
 
-### Step 1.3 - Sanity checks: 
-| word | happiness_rank | happiness_average | happiness_standard_deviation | twitter_rank | google_rank | nyt_rank | lyrics_rank |
-:--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| friendship | 34 | 7.96 | 1.1241 | 4273.0 | 3098.0 | 3669.0 | 3980.0 |
-| designers | 1544 | 6.38 | 1.4831 | NaN | NaN | 3890.0 | NaN |
 
-Explanation:
-- The two rows above show a clear distinguishment between the ranks of them by happiness, and hence, their position on the list. "Friendship" is drawn 34th for average happiness, while "designers" remains 1544. Considering "freindship" to have more positive stigma attached to it, "it makes sense" why it is higher than designers. 
-- Standard deviation also shows that there was more controversy attached to applying a happiness metric to "designers" than to "friendshi"p" (1.48 vs 1.12, respectively). 
-- Most postitive and most negative words do make sense, by "making sense", we imply that the positive words are ones, that a human would consider positive, and most negative ones are those, that a human would consider most negative. Hence, the model "makes sense" to a human becuase it seems to understand what a human want it to do, aligning with the humans expectations. 
+## 1: Dataset section: 
+The chosen dataset was collected from The New York Times Developer API*. The newspaper was selected because it is representative of global events, as it covers domestic to the US, and international news, while also being widely recognized as trustworthy. The primary text unit analyzed was the headline, while the main metadata was the publication year used to analyze the change over time. Ethical considerations were respected by following the API usage limits and not redistributing copyrighted article content, and using the data only for academic research purposes.
 
-## Step 2: Quantitative Exploration:
+** Please find the link to documentation for New York Times Developers API https://publicapis.io/new-york-times-api 
 
-### 2.1 Distribution of happiness scores
 
-To understand the emotional rating of the dataset, descriptive statistics were calculated (Table 1) and visualised on a histogram (Figure 4) with the distribution of happiness scores across the 10,222 unique words.
+## 2: Methods section: 
 
-The summary of statistics:
-| Metric | Value |
+### 2.1: inference.py: fetch script: data scraping & cleaning; downloading API
+
+For data acquisition cleaning and tokenisation, we followed the methodology outlined in the original paper by Dodds, which in our case resulted in the following steps:
+1. Data extraction through the NYT API: parsed year, month, day to analyze happiness trends across 
+   different years and months
+2. Punctuation: stripped all symbols (including smart quotes) to normalise possessives (e.g., "sheinbaum's" -> "sheinbaums").
+3. Case: lowercased all words to match the case-insensitive labMT word list.
+4. Numbers: removed digits to focus on semantic words with emotional weight.
+5. Kept full word forms to match the original labMT dataset.
+6. Stop words: filtered neutral words (pronouns, prepositions, etc.) to increase the sensitivity of the later exploration and reduce data noise.
+
+Why didn't we just use 'tokenize' function and choose a more manual approach? We decided to avoid standard library tokenisers (like NLTK's word_tokenize) because they would not provide the level of accuracy we wanted to achieve. They often split contractions (“don't” to “do” and “n't”) or keep punctuation as separate tokens, which would make it harder to match words directly to the labMT 1.0 dataset.
+
+
+### 2.2: scoring_logic.py: data scoring; implementing and testing hedonometer
+
+This script used the Data_Set_Inference.py to attach our data to the hedonometer.  
+
+Using the dataset Data_Set_Inference.py, we used the 10222-word dictionary to align our tokens with the tokens for which there already was a happiness score. Total OOV word occurrences was 952695 times. Overall the dictionary covered most words (74%), covering more closer to 2015 than to 2025, probably because the Mechanical Turk was performed around the 2011 discourse, with social media not yet being flooded with the events to happen later. 
+
+We used the weighted average formulat to count the happiness average of every headline:
+$$H_d = \frac{\sum_{w} c_{dw} h_w}{\sum_{w} c_{dw}}$$
+
+**Where:**
+* $c_{dw}$ = the count of word $w$ in document $d$
+* $h_w$ = the hedonometer happiness score for word $w$
+
+This means that, by default, **repeated words count multiple times** in the final score. However, we decided to implement this, becuase we found that iteraion is a means of language that can strengthen its meaning. 
+
+| Description | Count / Percentage |
 | :--- | :--- |
-| **Count** | 10,222 words |
-| **Mean** | 5.38 |
-| **Median** | 5.44 |
-| **Standart Dev** | 1.08 |
-| **5th Percentile** | 3.18 |
-| **95th Percentile** | 7.08 |
-|Table 1: Hapiness average summary statistics |
+| **Total tokens in dataset** | 3,676,622 |
+| **Total OOV word tokens** | 952,695 |
+| **OOV percentage** | 25.91% |
+| **Dictionary coverage** | 74.09% |
 
-![Happiness Histogram](figures/happiness_average_hist.png)
-Figure 4: Distribution of average happiness scores across the labMT 1.0 dataset.
-
-### Analysis:
-  
-* Looking at the mean (5.38) and median (5.44), considering that the scale is 1 to 9, the data has a skew to the right or, in other words, the findings show that people find language a little more positive on average.
-
-* The one pattern we did not expect was to see a kind of negative "tail" on the left side of the dataset, showing that even though the whole dataset in quantity is skewed to be more positive, there are more diverse words to represent negativity.
-
-## 2.1 Disagreement: which words are “contested”?
-
-Since the dataset also presents standart deviation for each word, one might take a look into what were the words people disagreed most about, so where the scores differed more. The scatter plot (Figure 2) maps out this comparison by taking average happiness score against the standard deviation. Therefore, points higher on the y-axis represent words with more disagreement.
-
-![Disagreement Scatterplot](figures/happiness_vs_std_scatter.png)
-Figure 2: Disagreement scatterplot
-
-### Top 5 most contested words
-
-| Word | Happiness Average | Standard Deviation |
-| :--- | :--- | :--- |
-| fucking | 4.64 | 2.93 |
-| fuckin | 3.86 | 2.74 |
-| fucked | 3.56 | 2.71 |
-| pussy | 4.80 | 2.67 |
-| whiskey | 5.72 | 2.64 |
-
-
-#### Analysis of Findings
-* Taking a closer look on the table above with top 5 most contested words, one can observe how all of them revolve around several sensitive categories. Applyign a more qualitative lens, words like "fucking," "fuckin," and "fucked" can be associated with profanity and taboo, therefore really vary in scores depending on the rater's sentitivity and initial associations. Moreover, words such as "pussy" may present a high disagreement due to the fact that it holds multiple and quite diverse meanings, from an animal to a offensive expletive. Lastly, the score of words might differ according to personal background and cultural baggage, therefore, such words as "whiskey" can evoke different associations depending on the cultural or even personal/family history with alchohol.
-* We have decided to choose these five words, because they have the highest standart deviation (representing the most contested words) from the word list. 
-
-## 2.3 Corpus comparison: what counts as “common language” depends on where you look
-
-To understand the scope of the provided to us dataset, we first analyzed how many words from the 10,222-word lexicon are considered "common" (within the top 5,000 most frequent) in each individual media group.
-
-![Corpus Coverage Bar Chart](figures/corpus_rank_coverage_bar.png)
-Figure 3: How many words appear in each corpus rank?
-
-#### Interpretation of the chart
-* The bar chart shows that each corpus contains exactly 5,000. This just proves the dataset construction methodology. The fact that all bars are equal confirms that no single corpus is over- or under-represented.
-
-* However, to understand how "common language" varies across the chosen social media channels presented in the dataset, we analyzed the overlap of the top 5,000 most frequent words from each group.
-
-#### Word Overlap Heatmap
-The heatmap below shows the raw number of shared words between each pair of channels. 
-
-![Corpus Overlap Heatmap](figures/corpus_overlap_heatmap.png)
-Figure 4: The overlap heatmap
-
-### Analysis:
-* The diagonal of dark blue squares shows exactly 5,000 words for each, confirming that data was constructed using the top 5,000 words from each source. Highest overlap can be found in Twitter and Music Lyrics as they share the most vocabulary 3,127 words. 
-* In contrast, the lowest overlap can be found between Music Lyrics and the New York Times (2,241 words), showcasing a significant difference between professional news medium and songwriting.
-
-#### Spearman Rank Correlation
-To take it a step further we calculated the Spearman correlation coefficient to determine if words that are popular in one corpus tend to be popular in others as well.
-
-| Channel Pair | Spearman Correlation |
+Top 15 unmatched (oov words) by frequency: 
+| word | frequency |
 | :--- | :--- |
-| Twitter + Lyrics | 0.62 |
-| Google Books + NYT | 0.60 |
-| Twitter + NYT | 0.47 |
-| NYT + Lyrics | 0.38 |
+| **trumps** | 8990 |
+| **covid** | 7,104 |
+| **biden** | 6,522 |
+| **coronavirus** | 4,483 |
+| **corrections** | 3,777 |
+| **ukraine** | 3,673 |
+| **quotation** | 3,471 |
+| **heres** | 3,153 |
+| **pandemic** | 2,692 |
+| **vaccine** | 2,070 |
+| **tracker** | 1,960 |
+| **chinas** | 1,847 |
+| **bidens** | 1,742 |
+| **syria** | 1,669 |
+| **spelling** | 1,571 |
 
-### Analysis:
-* The strongest correlation (0.62) was found between Twitter and Lyrics, showing that social media speech patterns are closer to the vocabulary used in modern music than to other media channels. 
-* In contrast, as already highlighted in the heatmap the NYT and Lyrics have the weakest correlation (0.38), shoeing how  the "common" vocabulary of news and artistic lyrics are most distinct in this dataset compared to the other media channels.
+We then created a new dataset with the tokenized headlines applied to the hedonometer. The following data dictionary is applicable for the scored_nyt_headlines.py dataset: 
+| Name | Data Represented | d-type | Example |
+| :--- | :--- | :--- | :--- |
+| **Year** | Year of headline publication | integer | 2015 |
+| **Month** | Month of headline publication | integer | 1 |
+| **Day** | Day of headline publication | integer | 1 |
+| **tokenized_words** | Words in the headline separated into tokens, excluding stop words | string | knew wanted |
+| **happiness_score** | Avg happiness score of remaining tokens in headline | float64 | 5.51 |
+| **oov_words** | oov word | string | [ ] (none) |
+| **match_count** | Count of matches of tokens in headline with hedonometer | integer | 2 |
 
-### One example
-We used the provided labMT 1.0 frequency data to generate our own custom analysis. By running our script, we produced the twitter_common_nyt_missing_top20.csv to help identify what words would ranked high and in general appear in the dataset of Twitter but are not in the NYT corpora.
 
-#### Extract from the table: Words on Twitter but missing in NYT
+Sanity check exploration: 
+![Sanity Check Table](figures/sanity_check_table.png)
+The sanity test came out to be “understandable”, meaning that we could presume that the headlines that were ranked around 8.43 were definitely more happy than the ones ranked 1.3, based on our critical thinking. The happiest headlines included either “happiness” or “love”, which are some of the top happiest words, therefore scoring these headlines as happiest. The saddest headlines commonly included disturbing thoughts such as suicide and terrorism. 
 
-| word | twitter_rank | happiness_average |
-| :--- | :--- | :--- |
-| **rt** | 15.0 | 4.88 |
-| **lol** | 42.0 | 6.84 |
-| **im** | 80.0 | 5.02 |
-| **twitter** | 107.0 | 5.46 |
-| **haha** | 135.0 | 7.64 |
-| **ur** | 159.0 | 4.96 |
-| **gonna** | 166.0 | 4.86 |
-| **yeah** | 192.0 | 5.90 |
-| **que** | 194.0 | 4.64 |
-| **ya** | 195.0 | 5.22 |
+### 2.3: nyt_visualisation.py: creating plots and tables for analysis 
+The above script uses the processed document containing the tokenised headlines that have been matched to the labMT happiness average scores. It contains the codes required to generate plots and tables that have been used for statistical inference and close reading, respectively. Some significant plots that we used for quantitative analysis include the happiness distribution of the headlines, the overall time-series trend of happiness average, binned by month and monthly trends that appear in the data. The tables for qualitative analysis allow a closer look at either tail of the dataset, and some stratified sampling of OOV headlines where we look for patterns to better critique our data and methods. 
 
-### Analysis
-* A concrete example of linguistic different can be found in the word 'rt', which stands for 'retweet'. It is one of the most frequent words in the Twitter corpus bacuse it presents an operational command specific to the platform but it is entirely missing from the New York Times 5,000 ranks.
+## 3: Results section:
+**Table 1. Happiness Average Distribution Summary of NYT Headlines**
 
-## Step 3: Qualitative exploration: close reading the lexicon as a cultural artifact
+| Statistic | Value |
+| :--- | :--- |
+| **count** | 611,807 |
+| **mean** | 5.521405 |
+| **standard deviation** | 0.706912 |
+| **minimum** | 1.30 |
+| **25%** | 5.126667 |
+| **50%** | 5.56 |
+| **75%** | 5.97 |
+| **maximum** | 8.44 |
 
-### 3.1 Word Exhibit
+**Figure 1. Happiness Average Distribution of NYT Headlines**
+![Happiness Distribution](figures/nyt_happiness_score_distribution.png)
 
-| category | word | happiness_average | happiness_standard_deviation | twitter_rank | google_rank | nyt_rank | lyrics_rank |
-|---|---|---|---|---|---|---|---|
-| very positive | laughter | 8.5 | 0.9313 | 3600.0 |  |  | 1728.0 |
-| very positive | happiness | 8.44 | 0.9723 | 1853.0 | 2458.0 |  | 1230.0 |
-| very positive | love | 8.42 | 1.1082 | 25.0 | 317.0 | 328.0 | 23.0 |
-| very positive | happy | 8.3 | 0.9949 | 65.0 | 1372.0 | 1313.0 | 375.0 |
-| very positive | laughed | 8.26 | 1.1572 | 3334.0 | 3542.0 |  | 2332.0 |
-| very negative | terrorist | 1.3 | 0.9091 | 3576.0 |  | 3026.0 |  |
-| very negative | suicide | 1.3 | 0.8391 | 2124.0 | 4707.0 | 3319.0 | 2107.0 |
-| very negative | rape | 1.44 | 0.7866 | 3133.0 |  | 4115.0 | 2977.0 |
-| very negative | terrorism | 1.48 | 0.9089 |  |  | 3192.0 |  |
-| very negative | murder | 1.48 | 1.015 | 2762.0 | 3110.0 | 1541.0 | 1059.0 |
-| highly contested | fucking | 4.64 | 2.926 | 448.0 |  |  | 620.0 |
-| highly contested | fuckin | 3.86 | 2.7405 | 1077.0 |  |  | 688.0 |
-| highly contested | fucked | 3.56 | 2.7117 | 1840.0 |  |  | 904.0 |
-| highly contested | pussy | 4.8 | 2.665 | 2019.0 |  |  | 949.0 |
-| highly contested | whiskey | 5.72 | 2.6422 |  |  |  | 2208.0 |
-| Twitter-common, NYT-missing | rt | 4.88 | 1.0622 | 15.0 |  |  |  |
-| Twitter-common, NYT-missing | lol | 6.84 | 1.7884 | 42.0 |  |  |  |
-| Twitter-common, NYT-missing | im | 5.02 | 1.1156 | 80.0 | 4093.0 |  | 315.0 |
-| Twitter-common, NYT-missing | twitter | 5.46 | 1.9082 | 107.0 |  |  |  |
-| Twitter-common, NYT-missing | haha | 7.64 | 1.3815 | 135.0 |  |  | 3211.0 |
+The distribution of happiness scores shows that the mean of the entire corpus that was matched to the labMT dataset was 5.52, meaning that it leans towards a neutral to positive score. This indeed complements the analysis done by Dodds et al. (2011) that “English words, as they appear in natural language, are biased toward positivity”. This is further evident in the quartiles, wherein half of the scores lie between 5 and 6. Moreover, the corpus has a low standard deviation of 0.71, which indicates that there are fewer headlines with extremely high or low happiness scores, with most concentrated near the centre. This could potentially be representative of the journalistic standards for remaining neutral in the editorial texts.
 
-The qualitiative analysis is informed by a close reading of our data where we studied 50 most positive and negative words and furthermore 50 highly contested words. 
+**Figure 2. Overall Time-Series of Happiness Scores of NYT Headlines Averaged by Month (2015-2025)**
+![NYT Monthly Happiness Trend](figures/nyt_monthly_happiness_trend.png)
 
-* A close reading of the words that have the highest and lowest happiness average make clear certain patterns. These patterns can help in explaining the decision-making that informed the ranking of the words. 
+The above graph shows the overall trend in happiness average over the 11-year period. Here, we notice a slight downward trend in the happiness average as lower highpoints and newer lowpoints in the averaged scores through the years, indicating a shifting tone in the text. We assume that this could either represent real-world events, a shift in the writing style or a mix of both. Moreover, this plot also makes clear one outlier month in our dataset, i.e. January 2021, that was most likely caused by the political state in the United States at the time, since that is when the Capitol attack took place. 
 
-* Firstly, the extreme ends of the happiness average table where we see the most positive and most negative words, include words that likely contain meanings that are largely consistent across contexts. For the most positive words, these included words used to express joyous emotions (e.g. happy, joy, etc.) occasions and events that are associated with positive experiences (e.g. christmas, beach, holidays), and objects symbolic of idealized happiness (e.g. butterflies, rainbows, etc.). On the other end, words with the least happiness average score carry a common theme of “fear” (e.g. death, murder, bomb, violence, etc.).
+**Figure 3a. Yearly Happiness Score Trends Averaged by Month (2015-2025)**
+![Yearly Happiness Trends](figures/nyt_monthly_happiness_trends_by_year.png)
 
-* Moreover, words with the hisghest standard deviation highlight words containing multiple meaning, highly contested topics and the overall most importantly it brings forth the significance of context within a language. This is evident through the profanity that come up (e.g. fuck, slut, pussy). Moreover, this included topics that are poitcially charged (e.g. capitalism, socialism), and culturally loaded (e.g. church, marriage, god). Interestingly, another pattern that emerges here include famous institutions (e.g. mcdonalds & walmart) that maybe signifier of larger debates online. 
+**Figure 3b. Monthly Happiness Average Pattern (2015-2025)**
+![Monthly Happiness Average Pattern](figures/nyt_average_monthly_happiness_pattern.png)
 
-* Lastly, we briefly looked at words that are frequent in the twitter ranking but do not appear in the NYT ranks corpus which, again, points to the contextual use of language that differs from time and place. Here, this is the difference in language use by a general public on social media vs edited, professional writing from a media company which is why informal/coloquial/slang words are not ranked by NYT.
+Figures 3a and 3b make clear the emergence of monthly/seasonal patterns. Particularly noticeable here are the consistently low happiness average of headlines published in January and the significantly higher score during December. Although the pattern in 3b may be impacted by the outlier data from January 2021, the lower average is also evident in the overall trend, with evident dips at the beginning of each year. The high average scores in December can be explained by the festive season during the period around Christmas and New Year's, causing a surge in positive, festive vocabulary in the writing. 
 
-## Step 4: Critical Reflection
+## 4: Qualitative Exhibit:
 
-### 4.1
-Data Collection:
-1. Collection of 4.6 billion tweets posted by over 63 million users in 33 months
-2. 5000 most frequent words from four distinct sources. Totalling up to 10,222 unique words
-3. Amazon’s Mechanical Turk was used to obtain the human happiness rating. Independent users rated each word on a scale from 1 to 9
-4. A “naive” algorithm calculated the weighted average of the happiness scores 
-5. A tunable “stop word” filter was implemented to exclude neutral words (e.g. obtained a score near 5) to refine the instrument's focus on more emotional language 
-6. The updated instrument was applied back to the dataset to identify patterns across hours, days, years, and, lastly, ambient happiness scores.
+### 4.1: Top 15 Most Positive Titles:
 
-### 4.2
-1. Frequency-based word selection
-- Choice: The researchers selected words based on how often they appear across the four sources 
-- Consequence: This makes it easier to cover high volumes of text; however, it can make it harder to capture the emotional impact of words that have a lower frequency but are highly potent. 
-- Example: Inclusion of words like ‘the’ (4.94), and ‘of’ (4.94). These words required a separate filtering process to remove these words so they dont distort the sentiment measurement 
-2. The "Bag-of-Words" Naive Algorithm
-- Choice: The method calculates the average of word scores, ignoring sentence structure, grammar, and context
-- Consequence: The computational process is efficient, but it’s harder to detect sarcasm, negation, or multiple meanings.
-- Example: Analyzing Tiger Woods, words like “car” and “sex” were scored as positive in isolation, although in context of that specific scandal were negative
-3. Crowdsourcing via Mechanical Turk.
-- Choice: usage of anonymous online workers to provide the foundational happiness scores.
-- Consequence: easier to scale the dataset tenfold, but it’s challenging to take into account cultural or demographic biases, as the rating reflects a “generic reader” rather than representing the global population 
-- Example: In the paper, the researchers highlight how the Turk rating correlates with the student-based ANEW study, while Twitter users remain a non-representative subpopulation.
-4. Implementing a center-band filter ($\Delta h_{avg} = 1$)
-- Choice: Researchers excluded all words with a happiness rating of between 4 and 6. 
-- Consequence: This improves the instrument's sensitivity to emotional shifts. However, it makes it more brittle because it discards about 64% of the words, substantially reducing the total coverage. 
-- Example: The removal of words like ‘truck’ and ‘sleep’, which scored near 5, makes identifying emotional shifts during major events such as holidays or disasters. 
-5. Equality weighting of all users
-- Choice: news organisation tweets have the same weight as individual users
-- Consequence: “societal-scale” level of happiness is easier to measure as a form of “crowd-sourced media”. Although this makes it harder to differentiate genuine personal emotion from the sheer volume of news reporting
-- Example: Osama Bin Laden’s death was recorded as the least happy day in the time frame as a result of the rise in negative news-related words, like “dead”, “death”, and “killed”, even if many users felt positive about the event.
+| Date | Happiness Score | Tokenized Words | Match Count |
+| :--- | :--- | :--- | :--- |
+| 2015-07-28 | 8.44 | prescription happiness | 1 |
+| 2015-07-03 | 8.44 | happiness cone | 1 |
+| 2015-07-18 | 8.44 | dangers happiness | 1 |
+| 2016-07-29 | 8.42 | overcoming obstacles love | 1 |
+| 2015-02-24 | 8.42 | outpouring love onesies | 1 |
+| 2016-12-09 | 8.42 | syria love | 1 |
+| 2016-08-24 | 8.42 | love bollywood | 1 |
+| 2018-11-30 | 8.42 | luckenbooth scotlands love brooch | 1 |
+| 2015-01-29 | 8.42 | love valerie steele | 1 |
+| 2015-02-13 | 8.42 | love | 1 |
+| 2020-03-06 | 8.42 | shortcuts love | 1 |
+| 2019-01-12 | 8.42 | autocrats love emergencies | 1 |
+| 2020-10-02 | 8.42 | love lockdown | 1 |
+| 2019-07-06 | 8.42 | love peach cobbler | 1 |
+| 2015-06-25 | 8.42 | love kurt elling | 1 |
 
-### 4.3
-We would trust the hedonometer to reliably measure large-scale population happiness levels over time. The hedomenter is exceptionally skilled at identifying system-wide social synchrony, e.g. recourrring happiness peaks on holidays or substantial reductions as a consequence of major social traumas, like natural disasters, or celebrity deaths. The hedonometer operates as a sensing tool for capturing the overall mood of the digital public all around. 
-The hedonometer should not be used to interpret psychological happiness parameters or societal well-being, as the model overlooks context; it’s not recommended to be used for short, isolated text, where sarcasm or negation would be overlooked. Furthermore, these limitations show how this is not representative of a truly universal human sentiment, as Twitter users are non- representative of the subpopulation and the word list is biased toward English.
-To improve the instrument, a few elements can be updated. First, the incorporation of N-grams to help contextualize meanings such as “child abuse” or “not bad”, which can not be detected by a single-word approach. Second, a stronger language detection would allow non-English tweets to be ensured with appropriate sentiment scores. Third, implementing geographic and demographic metadata allows sentiment to be analyzed across different regions or groups rather than as a “generic reader”. The instrument could also be implemented with more diverse annotator pools, multi-dimensional emotional categories, and regular updates to maintain a contemporary language. Instead of measuring happiness as a quantity, the updated version should frame happiness as measuring public emotional expression within a specific cultural and technological context. 
+### Top 15 Most Negative Headlines
 
-## Credits: 
-Repo & workflow lead: Sara
+| Date | Happiness Score | Tokenized Words | Match Count |
+| :--- | :--- | :--- | :--- |
+| 2016-09-30 | 1.30 | boulanger commits suicide | 1 |
+| 2020-02-26 | 1.30 | taliban terrorist | 1 |
+| 2020-05-19 | 1.30 | pandemic sparking suicide | 1 |
+| 2019-10-25 | 1.30 | grandchild terrorist | 1 |
+| 2015-03-09 | 1.30 | blocking paths suicide | 1 |
+| 2023-01-01 | 1.30 | terrorist | 1 |
+| 2015-08-03 | 1.30 | teenagers medication suicide | 1 |
+| 2021-01-09 | 1.30 | fingerprints terrorist | 1 |
+| 2022-09-27 | 1.30 | assisted suicide accessible | 1 |
+| 2021-03-10 | 1.44 | fraudulent seduction rape | 1 |
+| 2015-11-06 | 1.47 | deaths suicide | 2 |
+| 2018-02-16 | 1.48 | martinis murder | 1 |
+| 2016-03-24 | 1.48 | overreacting terrorism | 1 |
+| 2018-01-21 | 1.48 | homegrown terrorism | 1 |
+| 2022-10-22 | 1.48 | monkeys mysteries murder | 1 |
 
-Data wrangler: Valerija
+### match_count = 0 Stratified Random Sample
+| Year | Date | Tokenized Words | Match Count |
+| :--- | :--- | :--- | :--- |
+| 2015 | 2015-01-20 | existential animation | 0 |
+| 2016 | 2016-04-03 | acpt standings puzzle | 0 |
+| 2017 | 2017-08-26 | huntergatherers | 0 |
+| 2018 | 2018-06-27 | volgograd stalin lurks sideline | 0 |
+| 2019 | 2019-08-06 | quentin tarantinos goddess gogo | 0 |
+| 2020 | 2020-05-15 | reopening warily | 0 |
+| 2021 | 2021-02-08 | babysitting | 0 |
+| 2022 | 2022-03-18 | defi | 0 |
+| 2023 | 2023-08-22 | waldorfs iconic statue rebirth iceland | 0 |
+| 2024 | 2024-06-18 | stopandshop runways | 0 |
+| 2025 | 2025-07-01 | strands sidekick | 0 |
 
-Quantitative analyst: Nadiya
+The qualitative analysis focuses on the yearly variations of happiness, lexical patterns, and the role of unmatched words. The further analysis of these elements helps broaden the quantitative trends and substantiate how the changes in headlines over the years create a shift in news coverage. 
 
-Qualitative/close reading lead: Sadia 
+The most positive headlines often include words like love and happiness, which score very high in the LabMT lexicon hedonometer, and they are usually perceived as positive in many contexts. These words can generally be found in headlines of articles relating to leisure, lifestyle, and culture. The titles usually have few words, so even one word that scores highly can significantly affect the final happiness score of the headline. Secondly, some words in the headlines may remain unmatched to the LabMT lexicon, meaning that the final score is based on only a few words that were successfully matched. This suggests that highly scoring headlines may not be positive in the broad sense, but are shaped by one or two words with strongly positive scores. 
 
-Provenance and Critique lead: Merey
+The most negative headlines display a similar pattern, however, trending in the opposite direction. These words include suicide, terrorist, murder, and rape. All these words are predominantly associated with violence, fear, and crises. Thus, the tone of the short titles can be dominated by these words on their own. This is because headlines are highly compressed forms of language; they contain fewer words, and thus each matched term brings more weight to the final score. Furthermore, if some words in the title remain without a match, the negatively matched words will skew the results in a negative direction. Thus, one strongly negative word can dominate the emotional tone of the headline, even if the content of the article is more complex and nuanced. This suggests that the method can be sensitive to the intensity of language in short titles, where a single association with violence and death can significantly affect the overall happiness score. This is especially visible when reporting on political topics, war, crime, and public emergencies. 
 
-Editor and Figure curator: Nadiya
+Moreover, some words in the dataset didn’t match the LabMT lexicon. This happens because the analysis relies on a dictionary of fixed words, meaning that proper nouns, recent and specialised terms, and compound forms of language are left without a match. Therefore, possibly meaningful words are omitted from the happiness analysis, presenting an important limitation to this method, which is expanded on in the critical reflection. The out-of-vocabulary words showcase that the lexical happiness analysis can capture a large selection of the words that can be matched, leaving some culture and topic-specific words outside of the lexical analysis. 
+
+These three components allow us to see that happiness scores are produced and interpreted not only through the emotional scores of the words but also the structures of the headlines. The New York Times headlines are usually short and have produced a low match count in our analysis; thus, a few of the successfully matched words may disproportionately affect the results in either a positive or negative direction. The unmatched words highlight this limitation further, as meaningful key terms are completely left out of the analysis. Therefore, the results are best interpreted as showing changes in emotional tones of headlines, instead of a full reflection of the article’s meaning. 
+
+## 5: Critical Reflection: 
+
+This study analyzes the happiness score in the New York Times headlines between 2015 and 2025 by using the hedonometer based on the labMT happiness lexicon. While this method was functional for a quantitative analysis of the language patterns over time, some methodological and sampling limitations must be taken into account when interpreting the final results.
+
+One important limitation concerns the dataset itself. The analysis is based solely on data from the NYT, therefore, representative of a signal newspaper. As a result, the dataset cannot represent global media sentiment. Although the NYT is one of the most renowned news outlets in the world, its reporting style reflects a U.S.-centric perspective. Consequently, the dataset reflects the editorial priorities of the newspaper rather than the objective global reality. Another limitation already mentioned in the qualitative analysis is the use of headlines as text data. Because headlines contain limited context, the sentiment calculation might not fully represent the tone of the final article. Additionally, the reliance on a predefined lexical dictionary, such as the labMT lexicon, limits the ability to capture an evolving language or context-specific words that frequently appear in the news.
+
+The other issue to consider is the data collection and sampling. The data was collected using the NYT API, which allows access to the articles' metadata and enables the analysis of data on a large scale. However, API queries might limit access to articles, which might result in incomplete data retrieval. In addition, it is noted that there is a variation in the number of headlines over the years. Years with many headlines provide a stabler and more reliable average, while years with fewer headlines may produce results more related to specific events. Therefore, the variation of the dataset size might affect the stability of yearly happiness scores.
+
+Interpreting the happiness scored in news headlines also presented challenges. Journalism focuses more on conflict, crises, and problems because they are considered more significant. As a result, a negative tone may be more common in newspapers. Therefore, it is more likely that the result of the happiness scores are the conditions in the real world conditions rather than a change in media.
+
+Despite these limitations, this study demonstrates how computational text analysis can reveal patterns in media language over time. Providing a lens to interpret major events in modern history. The hedomemeter provides a useful tool to identify trends in emotional tone over time in large text datasets. Future studies can be improved by comparing multiple newspapers to show different perspectives. Another improvement can be categorizing the headlines into subject specific groups to gain a deeper understanding of hoe the tone shifts for different subjects.
+
+In conclusion, while the results must be interpreted with awareness, the present and insight into how news tone mirrors broader social and historical trends within the period from 2015 to 2025.
+
+## 6: Credits: 
+Nadiya - Data Acquisition Lead
+Valerija - Measurement Lead
+Sadia - Quantitative Analyst
+Sara - Provenance and Critical Reflection.
+Merey - Qualitative Analysis and Close Reading. 
+
 
 ## References: 
   Dodds PS, Harris KD, Kloumann IM, Bliss CA, Danforth CM (2011) Temporal Patterns of Happiness and Information in a Global Social Network:
