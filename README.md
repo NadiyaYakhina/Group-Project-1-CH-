@@ -167,6 +167,9 @@ The above graph shows the overall trend in happiness average over the 11-year pe
 
 Figures 3a and 3b make clear the emergence of monthly/seasonal patterns. Particularly noticeable here are the consistently low happiness average of headlines published in January and the significantly higher score during December. Although the pattern in 3b may be impacted by the outlier data from January 2021, the lower average is also evident in the overall trend, with evident dips at the beginning of each year. The high average scores in December can be explained by the festive season during the period around Christmas and New Year's, causing a surge in positive, festive vocabulary in the writing. 
 
+### TBD: Estimating uncertainty: Bootstrap sampling
+* level of analysis: yearly
+
 ## 4: Qualitative Exhibit:
 
 ### 4.1: Top 15 Most Positive Titles:
