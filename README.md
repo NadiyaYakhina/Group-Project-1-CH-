@@ -60,8 +60,10 @@ The chosen dataset was collected from The New York Times Developer API*. The new
 
 
 ## 2: Methods section: 
+### 2.1: Sample size
+The analyzed sample consists of headlines from The New York Times from 2015 to 2025. This ten years frame was selected because it provides a sufficiently large amount of data to analyze the tendency of happiness in headlines. Covering this period allows us to analyze the impact of major global events that influence newspapers. At the same time, the specific limited time frames improves comparability across years, and grants the possibility to analyze modern historical events. Therefore, the selected sample size represents a balance between analytical depth, data availability and contextual relevance.
 
-### 2.1: inference.py: fetch script: data scraping & cleaning; downloading API
+### 2.2: inference.py: fetch script: data scraping & cleaning; downloading API
 
 For data acquisition cleaning and tokenisation, we followed the methodology outlined in the original paper by Dodds, which in our case resulted in the following steps:
 1. Data extraction through the NYT API: parsed year, month, day to analyze happiness trends across 
@@ -75,7 +77,7 @@ For data acquisition cleaning and tokenisation, we followed the methodology outl
 Why didn't we just use 'tokenize' function and choose a more manual approach? We decided to avoid standard library tokenisers (like NLTK's word_tokenize) because they would not provide the level of accuracy we wanted to achieve. They often split contractions (“don't” to “do” and “n't”) or keep punctuation as separate tokens, which would make it harder to match words directly to the labMT 1.0 dataset.
 
 
-### 2.2: scoring_logic.py: data scoring; implementing and testing hedonometer
+### 2.3: scoring_logic.py: data scoring; implementing and testing hedonometer
 
 This script used the Data_Set_Inference.py to attach our data to the hedonometer.  
 
@@ -132,7 +134,7 @@ Sanity check exploration:
 ![Sanity Check Table](figures/sanity_check_table.png)
 The sanity test came out to be “understandable”, meaning that we could presume that the headlines that were ranked around 8.43 were definitely more happy than the ones ranked 1.3, based on our critical thinking. The happiest headlines included either “happiness” or “love”, which are some of the top happiest words, therefore scoring these headlines as happiest. The saddest headlines commonly included disturbing thoughts such as suicide and terrorism. 
 
-### 2.3: nyt_visualisation.py: creating plots and tables for analysis 
+### 2.4: nyt_visualisation.py: creating plots and tables for analysis 
 The above script uses the processed document containing the tokenised headlines that have been matched to the labMT happiness average scores. It contains the codes required to generate plots and tables that have been used for statistical inference and close reading, respectively. Some significant plots that we used for quantitative analysis include the happiness distribution of the headlines, the overall time-series trend of happiness average, binned by month and monthly trends that appear in the data. The tables for qualitative analysis allow a closer look at either tail of the dataset, and some stratified sampling of OOV headlines where we look for patterns to better critique our data and methods. 
 
 ## 3: Results section:
