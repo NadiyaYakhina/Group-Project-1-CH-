@@ -38,15 +38,7 @@ py -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 ```
 
-### 3) Run the demo analysis
-```bash
-src/nyt_visualisations.py 
-```
-
-### What gets generated?
-After running, look in:
-- `figures/` — PNG plots
-- `tables/` — CSV summary tables
+### 3) Run Code for Analysis
 
 #### 3a) Data Acquisition & Tokenization
 ```bash
@@ -63,7 +55,9 @@ src/data_acquisition.py
 - data/raw/tokenized_data_set.csv (Cleaned tokens binned by year, month, and day)
 
 #### 3b) Hedonometric Scoring & Sentiment Analysis
+```bash
 src/scoring_logic.py
+```
 
 #### What it does:
 - Loads the labMT 1.0 lexicon into a high-speed lookup dictionary to map tokenized headlines to their corresponding happiness averages ($h_{avg}$) and calculate the weighted happiness score for each headline.
@@ -71,6 +65,36 @@ src/scoring_logic.py
 #### What gets generated?
 - data/processed/scored_nyt_headlines.csv (Headlines appended with individual happiness scores, OOV lists, and match counts)
 - tables/oov_frequency.csv (A summary table of the most frequent unmatched words for coverage validation)
+
+#### 3c) Visualisation and Inference
+```bash
+src/nyt_inference.py
+```
+
+#### What it does
+- Creates plots for statistical inference, including distribution graphs, time series, etc. 
+- Creates tables for qualitative analysis and close reading of the corpus
+#### What gets generated?
+- figures/nyt_happiness_score_distribution.png
+- figures/nyt_overall_timeseries.png
+- figures/nyt_monthly_happiness_trend.png
+- figures/nyt_yearly_happiness_trend.png
+- figures/nyt_monthly_happiness_trend_by_year.png
+- tables/nyt_top_15_positive_headlines.csv
+- tables/nyt_top_15_negative_headlines.csv
+- tables/nyt_random_zero_match_headlines_by_year.csv
+
+#### 3d) Bootstrap Sampling
+```bash
+bootstrap_analysis.py
+```
+#### What it does
+- Produces bootstrap sample of January 2021 (outlier) to infer upon its statistical significance
+- Produces bootstap sample of November 2020 (median) for comparison
+#### What gets generated?
+- figures/bootstrap_comparison.png
+
+
 
 # Research Topic: Temporal Patterns of Happiness in the New York Times
 Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe, and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. More broadly, our project aims to assess how political mood can be seen through headlines and how the overall sentiment differs over time. The chosen research question is: How does the happiness level of The New York Times titles vary over time from 2015 to 2025? Our population of interest consists of all articles published in the US from 2015 to 2025, and our sample consists of New York Times headlines from 2015 to 2025. It is important to note that the NYT is often considered a left-leaning publication; thus, this is important to take into account when interpreting results. 
