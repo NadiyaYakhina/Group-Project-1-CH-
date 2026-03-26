@@ -81,6 +81,46 @@ print(f"Figure saved to: {figures_path}")
 print("\nSummary statistics of monthly average happiness scores:")
 print(monthly_avg["happiness_score"].describe())
 
+## 5.3 calculating yearly averages
+
+df = df[df["year"] >= 2015]
+yearly_avg = df.groupby("year")["happiness_score"].mean().reset_index()
+yearly_avg = yearly_avg[(yearly_avg["year"] >= 2015) &
+                        (yearly_avg["year"] <= 2025)]
+
+### inspection
+print("\nYearly averages:")
+print(yearly_avg)
+
+### save table
+tables_path = os.path.join(script_dir, "../tables/nyt_yearly_happiness_avg.csv")
+yearly_avg.to_csv(tables_path, index=False)
+print(f"\nYearly averages saved as CSV to: {tables_path}")
+
+## 5.4 time-series plot (aggregated by year)
+
+plt.figure(figsize=(10,5))
+
+plt.plot(yearly_avg["year"], yearly_avg["happiness_score"],
+         marker="o", linestyle="-")
+
+plt.xlim(2015, 2025)
+plt.xticks(range(2015, 2026))
+plt.xlabel("Year")
+plt.ylabel("Average Happiness Score")
+plt.title("Average Yearly Happiness Score (2015–2025)")
+
+plt.tight_layout()
+
+### save figure
+figures_path = os.path.join(script_dir, "../figures/nyt_yearly_happiness_trend.png")
+plt.savefig(figures_path)
+print(f"Figure saved to: {figures_path}")
+
+# summary stats
+print("\nSummary statistics of yearly average happiness scores:")
+print(yearly_avg["happiness_score"].describe())
+
 #6: overall time-series visualisation, match_count
 
 ## 6.1: total match count by month
