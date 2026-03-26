@@ -48,8 +48,32 @@ After running, look in:
 - `figures/` — PNG plots
 - `tables/` — CSV summary tables
 
+#### 3a) Data Acquisition & Tokenization
+```bash
+src/data_acquisition.py
+```
+#### What it does:
+
+- Scraping from NYT Archive API
+- Pre-processing to implements the Dodds et al. methodology (strips punctuation and numbers, converts to lowercase, and filters neutral stop-words)
+
+#### What gets generated?
+
+- data/raw/Data_Set_Inference.csv (Raw scraped metadata)
+- data/raw/tokenized_data_set.csv (Cleaned tokens binned by year, month, and day)
+
+#### 3b) Hedonometric Scoring & Sentiment Analysis
+src/scoring_logic.py
+
+#### What it does:
+- Loads the labMT 1.0 lexicon into a high-speed lookup dictionary to map tokenized headlines to their corresponding happiness averages ($h_{avg}$) and calculate the weighted happiness score for each headline.
+- Identifies "Out-of-Vocabulary" (OOV) words missing from the lexicon and generates a frequency distribution table to assess data coverage and identify common unmatched terms.
+#### What gets generated?
+- data/processed/scored_nyt_headlines.csv (Headlines appended with individual happiness scores, OOV lists, and match counts)
+- tables/oov_frequency.csv (A summary table of the most frequent unmatched words for coverage validation)
+
 # Research Topic: Temporal Patterns of Happiness in the New York Times
-Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. Our project aims to answer the question: How does the happiness level of The New York Times titles vary over time from 2015 to 2025?
+Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe, and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. More broadly, our project aims to assess how political mood can be seen through headlines and how the overall sentiment differs over time. The chosen research question is: How does the happiness level of The New York Times titles vary over time from 2015 to 2025? Our population of interest consists of all articles published in the US from 2015 to 2025, and our sample consists of New York Times headlines from 2015 to 2025. It is important to note that the NYT is often considered a left-leaning publication; thus, this is important to take into account when interpreting results. 
 
 
 
@@ -60,8 +84,10 @@ The chosen dataset was collected from The New York Times Developer API*. The new
 
 
 ## 2: Methods section: 
+### 2.1: Sample size
+The analyzed sample consists of headlines from The New York Times from 2015 to 2025. This ten years frame was selected because it provides a sufficiently large amount of data to analyze the tendency of happiness in headlines. Covering this period allows us to analyze the impact of major global events that influence newspapers. At the same time, the specific limited time frames improves comparability across years, and grants the possibility to analyze modern historical events. Therefore, the selected sample size represents a balance between analytical depth, data availability and contextual relevance.
 
-### 2.1: inference.py: fetch script: data scraping & cleaning; downloading API
+### 2.2: inference.py: fetch script: data scraping & cleaning; downloading API
 
 For data acquisition cleaning and tokenisation, we followed the methodology outlined in the original paper by Dodds, which in our case resulted in the following steps:
 1. Data extraction through the NYT API: parsed year, month, day to analyze happiness trends across 
@@ -75,7 +101,7 @@ For data acquisition cleaning and tokenisation, we followed the methodology outl
 Why didn't we just use 'tokenize' function and choose a more manual approach? We decided to avoid standard library tokenisers (like NLTK's word_tokenize) because they would not provide the level of accuracy we wanted to achieve. They often split contractions (“don't” to “do” and “n't”) or keep punctuation as separate tokens, which would make it harder to match words directly to the labMT 1.0 dataset.
 
 
-### 2.2: scoring_logic.py: data scoring; implementing and testing hedonometer
+### 2.3: scoring_logic.py: data scoring; implementing and testing hedonometer
 
 This script used the Data_Set_Inference.py to attach our data to the hedonometer.  
 
@@ -132,7 +158,7 @@ Sanity check exploration:
 ![Sanity Check Table](figures/sanity_check_table.png)
 The sanity test came out to be “understandable”, meaning that we could presume that the headlines that were ranked around 8.43 were definitely more happy than the ones ranked 1.3, based on our critical thinking. The happiest headlines included either “happiness” or “love”, which are some of the top happiest words, therefore scoring these headlines as happiest. The saddest headlines commonly included disturbing thoughts such as suicide and terrorism. 
 
-### 2.3: nyt_visualisation.py: creating plots and tables for analysis 
+### 2.4: nyt_visualisation.py: creating plots and tables for analysis 
 The above script uses the processed document containing the tokenised headlines that have been matched to the labMT happiness average scores. It contains the codes required to generate plots and tables that have been used for statistical inference and close reading, respectively. Some significant plots that we used for quantitative analysis include the happiness distribution of the headlines, the overall time-series trend of happiness average, binned by month and monthly trends that appear in the data. The tables for qualitative analysis allow a closer look at either tail of the dataset, and some stratified sampling of OOV headlines where we look for patterns to better critique our data and methods. 
 
 ## 3: Results section:
@@ -233,7 +259,7 @@ The most positive headlines often include words like love and happiness, which s
 
 The most negative headlines display a similar pattern, however, trending in the opposite direction. These words include suicide, terrorist, murder, and rape. All these words are predominantly associated with violence, fear, and crises. Thus, the tone of the short titles can be dominated by these words on their own. This is because headlines are highly compressed forms of language; they contain fewer words, and thus each matched term brings more weight to the final score. Furthermore, if some words in the title remain without a match, the negatively matched words will skew the results in a negative direction. Thus, one strongly negative word can dominate the emotional tone of the headline, even if the content of the article is more complex and nuanced. This suggests that the method can be sensitive to the intensity of language in short titles, where a single association with violence and death can significantly affect the overall happiness score. This is especially visible when reporting on political topics, war, crime, and public emergencies. 
 
-Moreover, some words in the dataset didn’t match the LabMT lexicon. This happens because the analysis relies on a dictionary of fixed words, meaning that proper nouns, recent and specialised terms, and compound forms of language are left without a match. Therefore, possibly meaningful words are omitted from the happiness analysis, presenting an important limitation to this method, which is expanded on in the critical reflection. The out-of-vocabulary words showcase that the lexical happiness analysis can capture a large selection of the words that can be matched, leaving some culture and topic-specific words outside of the lexical analysis. 
+Moreover, some words in the dataset didn’t match the LabMT lexicon. Words like trump, biden, and covid were the most frequent unmatched words. This happens because the analysis relies on a dictionary of fixed words, meaning that proper nouns, recent and specialised terms, and compound forms of language are left without a match.  Therefore, possibly meaningful words are omitted from the happiness analysis, presenting an important limitation to this method, which is expanded on in the critical reflection. The out-of-vocabulary words showcase that the lexical happiness analysis can capture a large selection of the words that can be matched, leaving some culture and topic-specific words outside of the lexical analysis. 
 
 These three components allow us to see that happiness scores are produced and interpreted not only through the emotional scores of the words but also the structures of the headlines. The New York Times headlines are usually short and have produced a low match count in our analysis; thus, a few of the successfully matched words may disproportionately affect the results in either a positive or negative direction. The unmatched words highlight this limitation further, as meaningful key terms are completely left out of the analysis. Therefore, the results are best interpreted as showing changes in emotional tones of headlines, instead of a full reflection of the article’s meaning. 
 
@@ -241,7 +267,7 @@ These three components allow us to see that happiness scores are produced and in
 
 This study analyzes the happiness score in the New York Times headlines between 2015 and 2025 by using the hedonometer based on the labMT happiness lexicon. While this method was functional for a quantitative analysis of the language patterns over time, some methodological and sampling limitations must be taken into account when interpreting the final results.
 
-One important limitation concerns the dataset itself. The analysis is based solely on data from the NYT, therefore, representative of a signal newspaper. As a result, the dataset cannot represent global media sentiment. Although the NYT is one of the most renowned news outlets in the world, its reporting style reflects a U.S.-centric perspective. Consequently, the dataset reflects the editorial priorities of the newspaper rather than the objective global reality. Another limitation already mentioned in the qualitative analysis is the use of headlines as text data. Because headlines contain limited context, the sentiment calculation might not fully represent the tone of the final article. Additionally, the reliance on a predefined lexical dictionary, such as the labMT lexicon, limits the ability to capture an evolving language or context-specific words that frequently appear in the news.
+One important limitation concerns the dataset itself. The analysis is based solely on data from the NYT, therefore, representative of a signal newspaper. As a result, the dataset cannot represent global media sentiment. Although the NYT is one of the most renowned news outlets in the world, its reporting style reflects a U.S.-centric perspective. Consequently, the dataset reflects the editorial priorities of the newspaper rather than the objective global reality. Another limitation already mentioned in the qualitative analysis is the use of headlines as text data. Because headlines contain limited context, the sentiment calculation might not fully represent the tone of the final article.  Additionally, the reliance on a predefined lexical dictionary such as the labMT limits the possibility to capture new words or context specific words that frequently appear in news. For example, words like covid and trump are not included in the lexicon, therefore, they cannot be scored. This exclusion can significantly influence results, for example, happiness scores for 2020 and 2021 appear in line with the average. If these words were included in the lexicon, the happiness scores from those years would likely be lower, as the impact of negative terms like covid is not reflected. 
 
 The other issue to consider is the data collection and sampling. The data was collected using the NYT API, which allows access to the articles' metadata and enables the analysis of data on a large scale. However, API queries might limit access to articles, which might result in incomplete data retrieval. In addition, it is noted that there is a variation in the number of headlines over the years. Years with many headlines provide a stabler and more reliable average, while years with fewer headlines may produce results more related to specific events. Therefore, the variation of the dataset size might affect the stability of yearly happiness scores.
 
