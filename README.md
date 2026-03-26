@@ -49,7 +49,7 @@ After running, look in:
 - `tables/` — CSV summary tables
 
 # Research Topic: Temporal Patterns of Happiness in the New York Times
-Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. Our project aims to answer the question: How does the happiness level of The New York Times titles vary over time from 2015 to 2025?
+Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe, and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. More broadly, our project aims to assess how political and cultural mood can be seen through headlines and how the overall sentiment differs over time. The chosen research question is: How does the happiness level of The New York Times titles vary over time from 2015 to 2025? Our population of interest consists of all articles published in the US from 2015 to 2025, and our sample consists of New York Times headlines from 2015 to 2025. It is important to note that the NYT is often considered a left-leaning publication; thus, this is important to take into account when interpreting results. 
 
 
 
