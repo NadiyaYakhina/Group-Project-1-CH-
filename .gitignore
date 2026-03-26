@@ -1,6 +1,17 @@
+# Environments
+.venv/
+.env
+
+# Python cache
+__pycache__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# The rest of ignores
 hello.py
 hi.py
 lecture-2/
 lecture-3/
-.DS_Store
 project/

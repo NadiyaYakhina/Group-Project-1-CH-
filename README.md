@@ -48,6 +48,30 @@ After running, look in:
 - `figures/` — PNG plots
 - `tables/` — CSV summary tables
 
+#### 3a) Data Acquisition & Tokenization
+
+src/data_acquisition.py
+
+#### What it does:
+
+- Scraping from NYT Archive API
+- Pre-processing to implements the Dodds et al. methodology (strips punctuation and numbers, converts to lowercase, and filters neutral stop-words)
+
+#### What gets generated?
+
+- data/raw/Data_Set_Inference.csv (Raw scraped metadata)
+- data/raw/tokenized_data_set.csv (Cleaned tokens binned by year, month, and day)
+
+#### 3b) Hedonometric Scoring & Sentiment Analysis
+src/scoring_logic.py
+
+#### What it does:
+- Loads the labMT 1.0 lexicon into a high-speed lookup dictionary to map tokenized headlines to their corresponding happiness averages ($h_{avg}$) and calculate the weighted happiness score for each headline.
+- Identifies "Out-of-Vocabulary" (OOV) words missing from the lexicon and generates a frequency distribution table to assess data coverage and identify common unmatched terms.
+#### What gets generated?
+- data/processed/scored_nyt_headlines.csv (Headlines appended with individual happiness scores, OOV lists, and match counts)
+- tables/oov_frequency.csv (A summary table of the most frequent unmatched words for coverage validation)
+
 # Research Topic: Temporal Patterns of Happiness in the New York Times
 Overview: Our project highlights the temporal patterns of happiness in the headlines of The New York Times, one of the major news companies based in the US. We use the hedenometer developed by Dodds et al. (2011) in order to measure, describe, and understand the levels of happiness of the language used by NYT and thus invoked in large audiences, treating it as a “fundamental societal metric”. More broadly, our project aims to assess how political mood can be seen through headlines and how the overall sentiment differs over time. The chosen research question is: How does the happiness level of The New York Times titles vary over time from 2015 to 2025? Our population of interest consists of all articles published in the US from 2015 to 2025, and our sample consists of New York Times headlines from 2015 to 2025. It is important to note that the NYT is often considered a left-leaning publication; thus, this is important to take into account when interpreting results. 
 
