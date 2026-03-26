@@ -49,9 +49,9 @@ After running, look in:
 - `tables/` — CSV summary tables
 
 #### 3a) Data Acquisition & Tokenization
-
+```bash
 src/data_acquisition.py
-
+```
 #### What it does:
 
 - Scraping from NYT Archive API
