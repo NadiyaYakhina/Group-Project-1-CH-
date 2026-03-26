@@ -204,10 +204,13 @@ The above script uses the processed document containing the tokenised headlines 
 
 The distribution of happiness scores shows that the mean of the entire corpus that was matched to the labMT dataset was 5.52, meaning that it leans towards a neutral to positive score. This indeed complements the analysis done by Dodds et al. (2011) that “English words, as they appear in natural language, are biased toward positivity”. This is further evident in the quartiles, wherein half of the scores lie between 5 and 6. Moreover, the corpus has a low standard deviation of 0.71, which indicates that there are fewer headlines with extremely high or low happiness scores, with most concentrated near the centre. This could potentially be representative of the journalistic standards for remaining neutral in the editorial texts.
 
-**Figure 2. Overall Time-Series of Happiness Scores of NYT Headlines Averaged by Month (2015-2025)**
-![NYT Monthly Happiness Trend](figures/nyt_monthly_happiness_trend.png)
+**Figure 2a. Overall Time-Series of Happiness Scores of NYT Headlines Averaged by Year (2015-2025)**
+![Happiness Scores of NYT Headlines Averaged by Year](figures/nyt_yearly_happiness_trend.png)
 
-The above graph shows the overall trend in happiness average over the 11-year period. Here, we notice a slight downward trend in the happiness average as lower highpoints and newer lowpoints in the averaged scores through the years, indicating a shifting tone in the text. We assume that this could either represent real-world events, a shift in the writing style or a mix of both. Moreover, this plot also makes clear one outlier month in our dataset, i.e. January 2021, that was most likely caused by the political state in the United States at the time, since that is when the Capitol attack took place. 
+**Figure 2b. Overall Time-Series of Happiness Scores of NYT Headlines Averaged by Month (2015-2025)**
+![Happiness Scores of NYT Headlines Averaged by Month](figures/nyt_monthly_happiness_trend.png)
+
+The above graphs show the overall trend in happiness average over the 11-year period. Here, we notice a slight downward trend in the happiness average as lower highpoints and newer lowpoints in the averaged scores through the years, indicating a shifting tone in the text. We assume that this could either represent real-world events, a shift in the writing style or a mix of both. Moreover, this plot also makes clear one outlier month in our dataset, i.e. January 2021, that was most likely caused by the political state in the United States at the time, since that is when the Capitol attack took place. 
 
 **Figure 3a. Yearly Happiness Score Trends Averaged by Month (2015-2025)**
 ![Yearly Happiness Trends](figures/nyt_monthly_happiness_trends_by_year.png)
@@ -217,8 +220,12 @@ The above graph shows the overall trend in happiness average over the 11-year pe
 
 Figures 3a and 3b make clear the emergence of monthly/seasonal patterns. Particularly noticeable here are the consistently low happiness average of headlines published in January and the significantly higher score during December. Although the pattern in 3b may be impacted by the outlier data from January 2021, the lower average is also evident in the overall trend, with evident dips at the beginning of each year. The high average scores in December can be explained by the festive season during the period around Christmas and New Year's, causing a surge in positive, festive vocabulary in the writing. 
 
-### TBD: Estimating uncertainty: Bootstrap sampling
-* level of analysis: yearly
+### Bootstrap sampling
+
+![Bootstrap Comparison of Monthly Happiness](figures/bootstrap_comparison.png) 
+
+The monthly average time-series underscores a significant outlier in the dataset. In order to ensure the statistical significance of the outlier, a sensitivity check was performed through bootstrap analysis that allowed accounting uncertainty. In the bootstrap comparison of the monthly happiness average of the outlier month (Jan 2021) with the median-representative month (Nov 2020), there is no overlap between the confidence intervals of the two months and the happiness score shifts approximately -0.2 in Jan 2021. This shows meaningful variance in the trend becomes evident that was likely caused by a major news event.
+
 
 ## 4: Qualitative Exhibit:
 
